@@ -1,3 +1,4 @@
+
 var express = require("express");
 
 var router = express.Router();
@@ -11,7 +12,6 @@ router.get("/", function(req, res) {
     var hbsObject = {
       burger: data
     };
-    console.log(hbsObject);
     res.render("index", hbsObject);
   });
 });
@@ -27,8 +27,6 @@ router.post("/api/burger", function(req, res) {
 router.put("/api/burger/:id", function(req, res) {
   var condition = req.params.id;
 
-  console.log("condition", condition);
-
   burger.update({
     devoured: req.body.status
   }, condition, function(result) {
@@ -42,4 +40,15 @@ router.put("/api/burger/:id", function(req, res) {
 });
 
 // Export routes for server.js to use.
+module.exports = router;
+
+router.delete('/burgers/delete/:id', function (req, res) {
+	var condition = 'id = ' + req.params.id;   
+
+	burgers.delete(condition, function () {
+		res.redirect('/burgers');
+	});
+});
+
+
 module.exports = router;
